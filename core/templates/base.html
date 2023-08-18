@@ -1,0 +1,224 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petshop</title>
+    {% tailwind_css %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body class='bg-white'>
+
+    <header class="flex justify-between bg-white text-black w-screen">
+        <div class="px-5 xl:px-12 py-6 flex w-full items-center">
+          <a class="text-3xl font-bold font-heading flex items-center mb-4 sm:mb-0" href="#">
+            <img src="{% static 'img/logo.png' %}" class="h-8 mr-3" alt="Flowbite Logo" />
+            <span class="self-center text-2xl font-semibold whitespace-nowrap">Petshop</span>
+          </a>
+      <!--search -->
+            <div class="flex justify-center items-center mx-4 w-full">
+                <div class="flex-grow flex items-center pl-60">
+                <input type="text" class="w-2/3 px-4 py-2 border border-gray-300 rounded-l-md focus:ring-2 focus:ring-gray-500 focus:border-transparent" placeholder="Search...">
+                <button class="bg-gray-400 text-white px-4 py-2 rounded-r-md hover:bg-gray-600">
+                    <i class="fa fa-search"></i>
+                </button>
+                </div>
+            </div>
+
+      
+          <!-- Header Icons -->
+          <div class="hidden xl:flex items-center space-x-5 ">
+            <a class="hover:text-gray-200" href="#">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </a>
+            <a class="flex items-center hover:text-gray-200" href="#">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <span class="flex absolute -mt-5 ml-4">
+                <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500">
+                </span>
+              </span>
+            </a>
+            <!-- Sign In / Register      -->
+            <a class="flex items-center hover:text-gray-200" href="#">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <!-- Responsive navbar -->
+        <a class="xl:hidden flex mr-6 items-center" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <span class="flex absolute -mt-5 ml-4">
+            <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500">
+            </span>
+          </span>
+        </a>
+        <a class="navbar-burger self-center mr-12 xl:hidden" href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </a>
+      </header>
+      
+      <nav class="bg-white text-gray-400">
+        <div class="flex justify-center py-2 space-x-6">
+          <div class="relative inline-block dropdown">
+            <a href="#" class="flex items-center hover:text-gray-600">
+              <i class="fas fa-cat text-lg mr-1"></i>
+              Gatos
+              <i class="fas fa-caret-down ml-1"></i>
+            </a>
+            <div class="absolute hidden bg-white mt-1 py-2 w-32 shadow-md">
+              <ul>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Alimento</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Accesorios</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Belleza y cuidado</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="relative inline-block dropdown">
+            <a href="#" class="flex items-center hover:text-gray-600">
+              <i class="fas fa-dog text-lg mr-1"></i>
+              Perros
+              <i class="fas fa-caret-down ml-1"></i>
+            </a>
+            <div class="absolute hidden bg-white mt-1 py-2 w-32 shadow-md">
+              <ul>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Alimento</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Accesorios</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Belleza y cuidado</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="relative inline-block dropdown">
+            <a href="#" class="flex items-center hover:text-gray-600">
+              <i class="fas fa-paw text-lg mr-1"></i>
+              Otros animales
+              <i class="fas fa-caret-down ml-1"></i>
+            </a>
+            <div class="absolute hidden bg-white mt-1 py-2 w-32 shadow-md">
+              <ul>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Aves</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Roedores</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Peces</a>
+                </li>
+                <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Reptiles</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="relative inline-block dropdown">
+            <a href="#" class="flex items-center hover:text-gray-600">
+              <i class="fas fa-futbol text-lg mr-1"></i>
+              Accesorios
+              <i class="fas fa-caret-down ml-1"></i>
+            </a>
+            <div class="absolute hidden bg-white mt-1 py-2 w-32 shadow-md">
+              <ul>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Juguetes</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Collares</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Platos</a>
+                </li>
+                <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Camas</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="relative inline-block dropdown">
+            <a href="#" class="flex items-center hover:text-gray-600">
+              <i class="fas fa-first-aid text-lg mr-1"></i>
+              Farmacia
+              <i class="fas fa-caret-down ml-1"></i>
+            </a>
+            <div class="absolute hidden bg-white mt-1 py-2 w-32 shadow-md">
+              <ul>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Antiparasitarios internos</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Antiparasitarios externos</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Cuidado oidos y ojos</a>
+                </li>
+                <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Comportamiento</a>
+                </li>
+                <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Medicamentos</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+      
+      
+    <div class="container mx-auto mt-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer class="bg-white rounded-lg shadow m-4 text-black">
+        <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+            <div class="sm:flex sm:items-center sm:justify-between">
+                <a href="https://flowbite.com/" class="flex items-center mb-4 sm:mb-0">
+                    <img src="{% static 'img/logo.png' %}" class="h-8 mr-3" alt="Flowbite Logo" />
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap">Petshop</span>
+                </a>
+                <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0">
+                    <li>
+                        <a href="#" class="mr-4 hover:underline md:mr-6">About</a>
+                    </li>
+                    <li>
+                        <a href="#" class="mr-4 hover:underline md:mr-6">Privacy Policy</a>
+                    </li>
+                    <li>
+                        <a href="#" class="mr-4 hover:underline md:mr-6">Licensing</a>
+                    </li>
+                    <li>
+                        <a href="#" class="hover:underline">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <hr class="my-6 border-gray-200 sm:mx-auto lg:my-8" />
+            <span class="block text-sm text-gray-500 sm:text-center">© 2023 <a href="https://flowbite.com/" class="hover:underline">Petshop™</a>. All Rights Reserved.</span>
+        </div>
+    </footer>
+    <script src="{% static 'scripts/navbar.js' %}"></script>
+</body>
+</html>
