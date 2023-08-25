@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-3xl font-semibold mb-6">Tu Carrito de Compra</h1>
+<ul class="space-y-6">
+  {% for item in items %}
+    <li class="border border-gray-200 p-4 flex items-center space-x-4">
+      <div class="flex-shrink-0">
+        <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="w-20 h-20 object-cover rounded">
+      </div>
+      <div class="flex-grow">
+        <h2 class="text-lg font-semibold">{{ item.producto.nombre }}</h2>
+        <div class="flex items-center space-x-2 mt-2">
+          <button class="px-3 py-2 bg-blue-500 text-white rounded-full text-sm" onclick="cambiarCantidad({{ item.id }}, {{ item.cantidad|add:"-1" }})">-</button>
+          <span class="text-xl">{{ item.cantidad }}</span>
+          <button class="px-3 py-2 bg-blue-500 text-white rounded-full text-sm" onclick="cambiarCantidad({{ item.id }}, {{ item.cantidad|add:"1" }})">+</button>
+        </div>
+        <p class="mt-2 text-gray-600">Precio unitario: ${{ item.producto.precio }}</p>
+        <button class="text-red-600 hover:underline mt-2" onclick="eliminarProducto({{ item.id }})">Eliminar</button>
+      </div>
+    </li>
+  {% endfor %}
+</ul>
+<p class="text-xl font-semibold mt-6">Total: ${{ total }}</p>
+<button class="mt-6 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Pagar</button>
+  
+  <script>
+     function cambiarCantidad(itemId, nuevaCantidad) {
+    if (nuevaCantidad > 0) {
+      $.ajax({
+        url: `/cambiar_cantidad/${itemId}/${nuevaCantidad}/`,  // Cambia esto a la URL correcta en tu proyecto
+        type: 'POST',
+        data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
+        success: function(response) {
+          if (response.success) {
+            location.reload();  // Actualizar la página después de cambiar la cantidad
+          } else {
+            alert(response.error);  // Mostrar el mensaje de error del servidor
+          }
+        },
+        error: function() {
+          alert('Error al cambiar la cantidad.');
+        }
+      });
+    }
+  }
+    function eliminarProducto(itemId) {
+      if (confirm("¿Estás seguro de que deseas eliminar este producto del carrito?")) {
+        $.ajax({
+          url: `/eliminar_producto/${itemId}/`,  // Cambia esto a la URL correcta en tu proyecto
+          type: 'POST',
+          data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
+          success: function(response) {
+            location.reload();  // Actualizar la página después de eliminar el producto
+          },
+          error: function() {
+            alert('Error al eliminar el producto.');
+          }
+        });
+      }
+    }
+  </script>
+{% endblock %}

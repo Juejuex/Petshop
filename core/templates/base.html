@@ -1,6 +1,6 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-white">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +8,11 @@
     {% tailwind_css %}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
-<body class='bg-white'>
+<body class='bg-white h-full'>
 
     <header class="flex justify-between bg-white text-black w-screen">
         <div class="px-5 xl:px-12 py-6 flex w-full items-center">
-          <a class="text-3xl font-bold font-heading flex items-center mb-4 sm:mb-0" href="#">
+          <a class="text-3xl font-bold font-heading flex items-center mb-4 sm:mb-0" href="/">
             <img src="{% static 'img/logo.png' %}" class="h-8 mr-3" alt="Flowbite Logo" />
             <span class="self-center text-2xl font-semibold whitespace-nowrap">Petshop</span>
           </a>
@@ -27,29 +27,60 @@
             </div>
 
       
-          <!-- Header Icons -->
-          <div class="hidden xl:flex items-center space-x-5 ">
-            <a class="hover:text-gray-200" href="#">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
-            </a>
-            <a class="flex items-center hover:text-gray-200" href="#">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-              <span class="flex absolute -mt-5 ml-4">
-                <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500">
+            <!-- Header Icons -->
+            <div class="hidden xl:flex items-center space-x-5 ">
+              {% if user.is_authenticated %}
+                  <div class="relative dropdown">
+                      <a class="flex items-center hover:text-gray-200" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      </a>
+                      <div class="absolute left-1/2 transform -translate-x-1/2 mt-2 w-40 bg-white border rounded-lg shadow-lg hidden">
+                          <ul class="py-2">
+                              <li><p class="block px-4 py-2 ">{{ user.username }}</p></li>
+                              <li><a class="block px-4 py-2 hover:bg-gray-100" href="/profile">Perfil</a></li>
+                              <li><a class="block px-4 py-2 hover:bg-gray-100" href="/logout">Salir</a></li>
+                          </ul>
+                      </div>
+                  </div>
+              {% else %}
+                  <div class="relative dropdown">
+                      <a class="flex items-center hover:text-gray-200" href="#">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                      </a>
+                      <div class="absolute left-1/2 transform -translate-x-1/2 mt-2 w-40 bg-white border rounded-lg shadow-lg hidden">
+                          <ul class="py-2">
+                              <li><a class="block px-4 py-2 hover:bg-gray-100" href="/login">Iniciar sesión</a></li>
+                              <li><a class="block px-4 py-2 hover:bg-gray-100" href="/register">Registrarse</a></li>
+                          </ul>
+                      </div>
+                  </div>
+              {% endif %}
+            
+        
+              <a class="hover:text-gray-200" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </a>
+              <a class="flex items-center hover:text-gray-200" href="/ver_carrito" id="cartIcon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span class="flex absolute -mt-5 ml-4">
+                  <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500">
+                  </span>
                 </span>
-              </span>
-            </a>
-            <!-- Sign In / Register      -->
-            <a class="flex items-center hover:text-gray-200" href="#">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </a>
+              </a>
+            
+            </div>
+
+                     
+            
           </div>
         </div>
         <!-- Responsive navbar -->
@@ -73,7 +104,7 @@
       <nav class="bg-white text-gray-400">
         <div class="flex justify-center py-2 space-x-6">
           <div class="relative inline-block dropdown">
-            <a href="#" class="flex items-center hover:text-gray-600">
+            <a class="flex items-center hover:text-gray-600">
               <i class="fas fa-cat text-lg mr-1"></i>
               Gatos
               <i class="fas fa-caret-down ml-1"></i>
@@ -81,13 +112,13 @@
             <div class="absolute hidden bg-white mt-1 py-2 w-32 shadow-md">
               <ul>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Alimento</a>
+                  <a href="{% url 'producto_animal_categoria' categoria_nombre='Alimento' animal_nombre='Gatos' %}" class="block px-4 py-2 hover:bg-gray-100">Alimento</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Accesorios</a>
+                  <a href="{% url 'producto_animal_categoria' categoria_nombre='Accesorios' animal_nombre='Gatos' %}" class="block px-4 py-2 hover:bg-gray-100">Accesorios</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Belleza y cuidado</a>
+                  <a href="{% url 'producto_animal_categoria' categoria_nombre='Belleza' animal_nombre='Gatos' %}" class="block px-4 py-2 hover:bg-gray-100">Belleza y cuidado</a>
                 </li>
               </ul>
             </div>
@@ -101,13 +132,13 @@
             <div class="absolute hidden bg-white mt-1 py-2 w-32 shadow-md">
               <ul>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Alimento</a>
+                  <a href="{% url 'producto_animal_categoria' categoria_nombre='Alimento' animal_nombre='Perros' %}" class="block px-4 py-2 hover:bg-gray-100">Alimento</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Accesorios</a>
+                  <a href="{% url 'producto_animal_categoria' categoria_nombre='Accesorios' animal_nombre='Perros' %}" class="block px-4 py-2 hover:bg-gray-100">Accesorios</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Belleza y cuidado</a>
+                  <a href="{% url 'producto_animal_categoria' categoria_nombre='Belleza' animal_nombre='Perros' %}" class="block px-4 py-2 hover:bg-gray-100">Belleza y cuidado</a>
                 </li>
               </ul>
             </div>
@@ -121,16 +152,16 @@
             <div class="absolute hidden bg-white mt-1 py-2 w-32 shadow-md">
               <ul>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Aves</a>
+                  <a href="{% url 'productos_por_animal' animal_nombre='Aves' %}" class="block px-4 py-2 hover:bg-gray-100">Aves</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Roedores</a>
+                  <a href="{% url 'productos_por_animal' animal_nombre='Roedores' %}" class="block px-4 py-2 hover:bg-gray-100">Roedores</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100">Peces</a>
+                  <a href="{% url 'productos_por_animal' animal_nombre='Peces' %}" class="block px-4 py-2 hover:bg-gray-100">Peces</a>
                 </li>
                 <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Reptiles</a>
+                    <a href="{% url 'productos_por_animal' animal_nombre='Reptiles' %}" class="block px-4 py-2 hover:bg-gray-100">Reptiles</a>
                 </li>
               </ul>
             </div>
@@ -188,7 +219,7 @@
       </nav>
       
       
-    <div class="container mx-auto mt-4">
+    <div >
         {% block content %}
         {% endblock %}
     </div>
@@ -220,5 +251,7 @@
         </div>
     </footer>
     <script src="{% static 'scripts/navbar.js' %}"></script>
+    <script src="{% static 'scripts/carrito.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>

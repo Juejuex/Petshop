@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
+
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=50)
@@ -12,6 +14,20 @@ class Marca(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+class Animal(models.Model):
+    nombre = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.nombre
+
+class ItemCarrito(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    producto = models.ForeignKey('Producto', on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f'Item en el carrito de {self.usuario.username}: {self.producto.nombre}'
 
 class Proveedor(models.Model):
     nombre = models.CharField(max_length=100)
@@ -29,6 +45,7 @@ class Producto(models.Model):
     categorias = models.ManyToManyField(Categoria)
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
+    animal = models.ForeignKey(Animal, on_delete=models.CASCADE, default=1)
     imagen = models.ImageField(upload_to='productos/', blank=True, null=True)
 
     def __str__(self):
@@ -57,14 +74,12 @@ class DetalleVenta(models.Model):
     def clean(self):
         if self.cantidad > self.producto.cantidad_disponible:
             raise ValidationError("La cantidad vendida es mayor que la cantidad disponible.")
+        if self.precio_unitario != self.producto.precio:
+            raise ValidationError("El precio unitario no coincide con el precio del producto.")
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.producto.cantidad_disponible -= self.cantidad
         self.producto.save()
-
-    def clean(self):
-        if self.precio_unitario != self.producto.precio:
-            raise ValidationError("El precio unitario no coincide con el precio del producto.")
 
 
