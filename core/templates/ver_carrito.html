@@ -6,7 +6,7 @@
   {% for item in items %}
     <li class="border border-gray-200 p-4 flex items-center space-x-4">
       <div class="flex-shrink-0">
-        <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="w-20 h-20 object-cover rounded">
+        <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class=" h-32 w-32">
       </div>
       <div class="flex-grow">
         <h2 class="text-lg font-semibold">{{ item.producto.nombre }}</h2>
@@ -22,20 +22,23 @@
   {% endfor %}
 </ul>
 <p class="text-xl font-semibold mt-6">Total: ${{ total }}</p>
-<button class="mt-6 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Pagar</button>
+<form method="post" action="/pago/">  <!-- Cambio aquí: acción del formulario -->
+  {% csrf_token %}
+  <!-- Agregar campos del formulario de pago aquí -->
+  <button class="mt-6 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Procesar Pago</button>
   
   <script>
      function cambiarCantidad(itemId, nuevaCantidad) {
     if (nuevaCantidad > 0) {
       $.ajax({
-        url: `/cambiar_cantidad/${itemId}/${nuevaCantidad}/`,  // Cambia esto a la URL correcta en tu proyecto
+        url: `/cambiar_cantidad/${itemId}/${nuevaCantidad}/`,  
         type: 'POST',
         data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
         success: function(response) {
           if (response.success) {
-            location.reload();  // Actualizar la página después de cambiar la cantidad
+            location.reload();  
           } else {
-            alert(response.error);  // Mostrar el mensaje de error del servidor
+            alert(response.error);  
           }
         },
         error: function() {

@@ -1,10 +1,40 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
-from django.contrib.auth import logout
 from .models import *
 from django.http import JsonResponse
+from django.template.loader import render_to_string
+
+
+#Carrito
+
+
+def ver_carrito(request):
+    items = ItemCarrito.objects.filter(usuario=request.user)
+    total = sum(item.producto.precio * item.cantidad for item in items)
+    return render(request, 'ver_carrito.html', {'items': items, 'total': total})
+
+
+def agregar_al_carrito(request, producto_id):
+    producto = get_object_or_404(Producto, pk=producto_id)
+    
+
+    item, created = ItemCarrito.objects.get_or_create(
+        producto=producto,
+        usuario=request.user,  
+        defaults={'cantidad': 1}
+    )
+    if not created:
+        item.cantidad += 1
+        item.save()
+    
+    return redirect('ver_carrito')  
+
+def eliminar_producto(request, item_id):
+    item = get_object_or_404(ItemCarrito, id=item_id, usuario=request.user)
+    item.delete()
+    return redirect('ver_carrito')
 
 def cambiar_cantidad(request, item_id, nueva_cantidad):
     item = get_object_or_404(ItemCarrito, id=item_id, usuario=request.user)
@@ -19,20 +49,11 @@ def cambiar_cantidad(request, item_id, nueva_cantidad):
     item.save()
     
     return JsonResponse({'success': True})
+
     
-def index(request):
-    categoria_alimento = Categoria.objects.get(nombre='Alimento')
-    productos_alimento = Producto.objects.filter(categorias=categoria_alimento)
-    oferta = "¡Oferta especial! 10% de descuento en todos los alimentos"
-    return render(request, 'index.html', {'productos_alimento': productos_alimento, 'oferta': oferta})
 
-def peo(request):
-    return render(request, 'peo.html')
 
-def productos_por_categoria(request, categoria):
-    productos = Producto.objects.filter(categorias__nombre=categoria)
-    return render(request, 'categoria.html', {'productos': productos, 'categoria': categoria})
-
+#Manejo Cuentas
 
 def inicio_sesion(request):
     if request.method == 'POST':
@@ -111,32 +132,12 @@ def profile(request):
     return render(request, 'profile.html')
 
 
-def agregar_al_carrito(request, producto_id):
-    producto = get_object_or_404(Producto, pk=producto_id)
-    
 
-    item, created = ItemCarrito.objects.get_or_create(
-        producto=producto,
-        usuario=request.user,  
-        defaults={'cantidad': 1}
-    )
-    if not created:
-        item.cantidad += 1
-        item.save()
-    
-    return redirect('ver_carrito')  
+#Productos
 
-
-def ver_carrito(request):
-    items = ItemCarrito.objects.filter(usuario=request.user)
-    total = sum(item.producto.precio * item.cantidad for item in items)
-    return render(request, 'ver_carrito.html', {'items': items, 'total': total})
-
-
-def eliminar_producto(request, item_id):
-    item = get_object_or_404(ItemCarrito, id=item_id, usuario=request.user)
-    item.delete()
-    return redirect('ver_carrito')
+def productos_por_categoria(request, categoria):
+    productos = Producto.objects.filter(categorias__nombre=categoria)
+    return render(request, 'categoria.html', {'productos': productos, 'categoria': categoria})
 
 def producto_animal_categoria(request, animal_nombre, categoria_nombre):
     animal = get_object_or_404(Animal, nombre=animal_nombre)
@@ -145,7 +146,6 @@ def producto_animal_categoria(request, animal_nombre, categoria_nombre):
     productos = Producto.objects.filter(animal=animal, categorias=categoria)
     
     return render(request, 'categoria.html', {'productos': productos})
-
 
 def productos_por_animal(request, animal_nombre):
     animal = get_object_or_404(Animal, nombre=animal_nombre)
@@ -160,3 +160,28 @@ def productos_por_categoria_marca(request, categoria_nombre, marca_nombre):
     productos = Producto.objects.filter(categorias=categoria, marca=marca)
     
     return render(request, 'categoria.html', {'productos': productos, 'categoria': categoria, 'marca': marca})
+
+
+
+#Pago
+def procesar_pago(request):
+    items = ItemCarrito.objects.filter(usuario=request.user)
+    total = sum(item.producto.precio * item.cantidad for item in items)
+
+    return render(request, 'procesar_pago.html', {'items': items, 'total': total})
+
+def confirmacion_pago(request):
+    
+    return render(request, 'confirmacion_pago.html')
+
+
+#Templates
+def index(request):
+    categoria_alimento = Categoria.objects.get(nombre='Alimento')
+    productos_alimento = Producto.objects.filter(categorias=categoria_alimento)
+    oferta = "¡Oferta especial! 10% de descuento en todos los alimentos"
+    return render(request, 'index.html', {'productos_alimento': productos_alimento, 'oferta': oferta})
+
+def peo(request):
+    return render(request, 'peo.html')
+
