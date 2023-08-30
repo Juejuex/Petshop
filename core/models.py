@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
-
+from django.utils.text import slugify
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=50)
@@ -47,6 +47,11 @@ class Producto(models.Model):
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE, default=1)
     imagen = models.ImageField(upload_to='productos/', blank=True, null=True)
+    slug = models.SlugField(unique=True, null=False, blank=False)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.nombre)
+        super(Producto, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.nombre

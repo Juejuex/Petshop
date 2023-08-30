@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
 from .models import *
 from django.http import JsonResponse
+from django.utils.text import slugify
 from django.template.loader import render_to_string
 
 
@@ -161,6 +162,12 @@ def productos_por_categoria_marca(request, categoria_nombre, marca_nombre):
     
     return render(request, 'categoria.html', {'productos': productos, 'categoria': categoria, 'marca': marca})
 
+def producto_individual(request, categoria_nombre, producto_nombre):
+    categoria = get_object_or_404(Categoria, nombre=categoria_nombre)
+    producto_slug = slugify(producto_nombre)  # Crear un slug a partir del nombre del producto
+    producto = get_object_or_404(Producto, slug=producto_slug, categorias=categoria)
+
+    return render(request, 'producto_individual.html', {'producto': producto})
 
 
 #Pago
@@ -171,8 +178,9 @@ def procesar_pago(request):
     return render(request, 'procesar_pago.html', {'items': items, 'total': total})
 
 def confirmacion_pago(request):
-    
-    return render(request, 'confirmacion_pago.html')
+    items = ItemCarrito.objects.filter(usuario=request.user)
+
+    return render(request, 'confirmacion_pago.html',{'items': items})
 
 
 #Templates

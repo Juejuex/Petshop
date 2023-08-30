@@ -11,12 +11,12 @@
       <div class="flex-grow">
         <h2 class="text-lg font-semibold">{{ item.producto.nombre }}</h2>
         <div class="flex items-center space-x-2 mt-2">
-          <button class="px-3 py-2 bg-blue-500 text-white rounded-full text-sm" onclick="cambiarCantidad({{ item.id }}, {{ item.cantidad|add:"-1" }})">-</button>
+          <button class="px-3 py-2  text-gray-400 rounded-full text-sm" onclick="cambiarCantidad({{ item.id }}, {{ item.cantidad|add:"-1" }})">-</button>
           <span class="text-xl">{{ item.cantidad }}</span>
-          <button class="px-3 py-2 bg-blue-500 text-white rounded-full text-sm" onclick="cambiarCantidad({{ item.id }}, {{ item.cantidad|add:"1" }})">+</button>
+          <button class="px-3 py-2  text-gray-400 rounded-full text-sm" onclick="cambiarCantidad({{ item.id }}, {{ item.cantidad|add:"1" }})">+</button>
         </div>
         <p class="mt-2 text-gray-600">Precio unitario: ${{ item.producto.precio }}</p>
-        <button class="text-red-600 hover:underline mt-2" onclick="eliminarProducto({{ item.id }})">Eliminar</button>
+        <button class="text-gray-400 hover:underline text-gray-500 mt-2" onclick="eliminarProducto({{ item.id }})">Eliminar</button>
       </div>
     </li>
   {% endfor %}
@@ -25,7 +25,7 @@
 <form method="post" action="/pago/">  <!-- Cambio aquí: acción del formulario -->
   {% csrf_token %}
   <!-- Agregar campos del formulario de pago aquí -->
-  <button class="mt-6 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Procesar Pago</button>
+  <button class="mt-6 bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded">Procesar Pago</button>
   
   <script>
      function cambiarCantidad(itemId, nuevaCantidad) {

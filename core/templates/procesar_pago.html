@@ -51,7 +51,9 @@
 
         <div class="text-center">
             <p class="text-xl font-semibold mt-6">Total: ${{ total }}</p>
-            <button type="submit" class="mt-6 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"><i class="fas fa-credit-card mr-2"></i> Procesar Pago</button>
+            <a href="{% url 'confirmacion_pago' %}" class="mt-6 bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded inline-flex items-center">
+                <i class="fas fa-credit-card mr-2"></i> Procesar Pago
+            </a>
         </div>
     </form>
 </div>

@@ -2,5 +2,17 @@
 
 {% block content %}
 <h1 class="text-3xl font-semibold mb-6">¡Pago Exitoso!</h1>
+
+{% for item in items %}
+    <li class="border border-gray-200 p-4 flex items-center space-x-4">
+      <div class="flex-shrink-0">
+        <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class=" h-32 w-32">
+      </div>
+      <div class="flex-grow">
+        <h2 class="text-lg font-semibold">{{ item.producto.nombre }}</h2>
+      </div>
+    </li> 
+{% endfor %}
+
 <p>Tu pago se ha procesado correctamente.</p>
 {% endblock %}
