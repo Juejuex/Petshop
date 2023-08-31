@@ -47,7 +47,7 @@ class Producto(models.Model):
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE, default=1)
     imagen = models.ImageField(upload_to='productos/', blank=True, null=True)
-    slug = models.SlugField(unique=True, null=False, blank=False)
+    slug = models.SlugField(unique=True, null=True, blank=False)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.nombre)
