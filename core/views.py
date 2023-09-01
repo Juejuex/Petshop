@@ -162,11 +162,8 @@ def productos_por_categoria_marca(request, categoria_nombre, marca_nombre):
     
     return render(request, 'categoria.html', {'productos': productos, 'categoria': categoria, 'marca': marca})
 
-def producto_individual(request, categoria_nombre, producto_nombre):
-    categoria = get_object_or_404(Categoria, nombre=categoria_nombre)
-    producto_slug = slugify(producto_nombre)  # Crear un slug a partir del nombre del producto
-    producto = get_object_or_404(Producto, slug=producto_slug, categorias=categoria)
-
+def producto_individual(request, slug):
+    producto = get_object_or_404(Producto, slug=slug)
     return render(request, 'producto_individual.html', {'producto': producto})
 
 
