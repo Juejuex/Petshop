@@ -1,18 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="text-3xl font-semibold mb-6">¡Pago Exitoso!</h1>
+<div class="pagina-pago">
+    <h1 class="text-3xl font-semibold mb-6">¡Pago Exitoso!</h1>
 
-{% for item in items %}
-    <li class="border border-gray-200 p-4 flex items-center space-x-4">
-      <div class="flex-shrink-0">
-        <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class=" h-32 w-32">
-      </div>
-      <div class="flex-grow">
-        <h2 class="text-lg font-semibold">{{ item.producto.nombre }}</h2>
-      </div>
-    </li> 
-{% endfor %}
+    <p class="mb-6">
+        <strong>Monto:</strong> {{ total_carrito }}
+    </p>
 
-<p>Tu pago se ha procesado correctamente.</p>
+    <p class="mb-6">
+        <strong>Pedido:</strong>
+        <ul>
+            {% for item in items %}
+                <li>{{ item.producto.nombre }} x {{ item.cantidad }}</li>
+            {% endfor %}
+        </ul>
+    </p>
+
+    <a href="/" class="btn btn-primary">Volver a la tienda</a>
+</div>
 {% endblock %}

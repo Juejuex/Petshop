@@ -4,19 +4,20 @@ from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
 from .models import *
 from django.http import JsonResponse
-from django.utils.text import slugify
-from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
+from decimal import Decimal
+
 
 
 #Carrito
 
-
+@login_required
 def ver_carrito(request):
     items = ItemCarrito.objects.filter(usuario=request.user)
     total = sum(item.producto.precio * item.cantidad for item in items)
     return render(request, 'ver_carrito.html', {'items': items, 'total': total})
 
-
+@login_required
 def agregar_al_carrito(request, producto_id):
     producto = get_object_or_404(Producto, pk=producto_id)
     
@@ -31,12 +32,12 @@ def agregar_al_carrito(request, producto_id):
         item.save()
     
     return redirect('ver_carrito')  
-
+@login_required
 def eliminar_producto(request, item_id):
     item = get_object_or_404(ItemCarrito, id=item_id, usuario=request.user)
     item.delete()
     return redirect('ver_carrito')
-
+@login_required
 def cambiar_cantidad(request, item_id, nueva_cantidad):
     item = get_object_or_404(ItemCarrito, id=item_id, usuario=request.user)
     
@@ -88,47 +89,31 @@ def inicio_sesion(request):
 
 def register(request):
     error_message = None
-    username_exists = False
-    email_exists = False
 
     if request.method == 'POST':
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-        confirm_password = request.POST['confirm-password']
-        
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm-password')
+
         if password != confirm_password:
             error_message = "Las contraseñas no coinciden."
-
-        # Check if username or email already exist
-        existing_usernames = User.objects.filter(username=username).count()
-        existing_emails = User.objects.filter(email=email).count()
-
-        if existing_usernames > 0:
-            username_exists = True
-        if existing_emails > 0:
-            email_exists = True
-        
-        if not username_exists and not email_exists and error_message is None:
+        else:
             try:
                 user = User.objects.create_user(username=username, email=email, password=password)
+                login(request, user)
+                return redirect('index.html')  # Cambiar 'index' por la URL de la página de inicio
             except IntegrityError:
-                error_message = "El nombre de usuario ya está en uso. Por favor, elige otro nombre."
-        
-        if error_message is None and not username_exists and not email_exists:
-            new_user = authenticate(username=username, password=password)
-            if new_user is not None:
-                login(request, new_user)
-                return redirect('index')  # Cambiar 'index' por la URL de la página de inicio
+                error_message = "El nombre de usuario o el correo electrónico ya están en uso. Por favor, elige otro nombre o correo."
 
-    return render(request, 'register.html', {'error_message': error_message, 'username_exists': username_exists, 'email_exists': email_exists})
+    return render(request, 'register.html', {'error_message': error_message})
 
-
+@login_required
 def cerrar_sesion(request):
     logout(request)
     return redirect('index')  # Cambia 'index' por la URL de la página a la que deseas redirigir después del cierre de sesión
 
-
+@login_required
 def profile(request):
     return render(request, 'profile.html')
 
@@ -168,16 +153,35 @@ def producto_individual(request, slug):
 
 
 #Pago
+@login_required
 def procesar_pago(request):
     items = ItemCarrito.objects.filter(usuario=request.user)
     total = sum(item.producto.precio * item.cantidad for item in items)
 
     return render(request, 'procesar_pago.html', {'items': items, 'total': total})
-
+@login_required
 def confirmacion_pago(request):
-    items = ItemCarrito.objects.filter(usuario=request.user)
+    if request.user.is_authenticated:
+        # Obtén todos los elementos del carrito del usuario actual
+        items = ItemCarrito.objects.filter(usuario=request.user)
 
-    return render(request, 'confirmacion_pago.html',{'items': items})
+        # Calcula el monto total del carrito antes de eliminarlo
+        total_carrito = sum(item.producto.precio * item.cantidad for item in items)
+
+        # Elimina los elementos del carrito del usuario
+        items.delete()
+
+        # Renderiza la página de confirmación de pago y pasa el monto total
+        return render(request, 'confirmacion_pago.html', {'total_carrito': total_carrito})
+    else:
+        # Redirige al usuario a la página de inicio de sesión si no está autenticado
+        return redirect('login')  # Asegúrate de ajustar el nombre de la URL de inicio de sesión según tu proyecto
+
+
+@login_required   
+def procesar_pago(request):
+    return render(request,'formulario_compra.html')
+
 
 
 #Templates

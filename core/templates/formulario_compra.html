@@ -2,11 +2,12 @@
 
 
 {% block content %}
+
 <div class="flex justify-center items-center  h-1/3">
-    <form method="post" action="/procesar_pago/" class="w-1/3 mx-auto p-6 ">
+    <form method="post" action="{% url 'confirmacion_pago' %}" class="w-1/3 mx-auto p-6 ">
         {% csrf_token %}
         <label for="numero_tarjeta" class="block font-medium mb-2"><i class="far fa-credit-card mr-2"></i> Número de Tarjeta:</label>
-        <input type="text" id="numero_tarjeta" name="numero_tarjeta" required class="w-full p-2 border rounded">
+        <input type="text" id="numero_tarjeta" name="numero_tarjeta" required class="w-full p-2 border rounded" maxlength="19" >
         
         <label for="nombre_tarjeta" class="block font-medium mt-4 mb-2"><i class="fas fa-user mr-2"></i> Nombre en la Tarjeta:</label>
         <input type="text" id="nombre_tarjeta" name="nombre_tarjeta" required class="w-full p-2 border rounded">
@@ -47,16 +48,36 @@
         <label for="codigo_seguridad" class="block font-medium mt-4 mb-2"><i class="fas fa-lock mr-2"></i> Código de Seguridad (CVV/CVC):</label>
         <input type="text" id="codigo_seguridad" name="codigo_seguridad" required class="w-full p-2 border rounded">
 
+        <input type="hidden" name="cantidad_total" value="{{ total }}">
+
+
 
 
         <div class="text-center">
             <p class="text-xl font-semibold mt-6">Total: ${{ total }}</p>
-            <a href="{% url 'confirmacion_pago' %}" class="mt-6 bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded inline-flex items-center">
-                <i class="fas fa-credit-card mr-2"></i> Procesar Pago
-            </a>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue active:bg-blue-800 mt-4">
+                <i class="fas fa-check mr-2"></i>Pagar
+              </button>
         </div>
     </form>
 </div>
 
+
+<script>
+  // Función para formatear el número de tarjeta cada 4 dígitos
+  document.getElementById("numero_tarjeta").addEventListener("input", function (e) {
+    var input = e.target;
+    var value = input.value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
+    var formattedValue = "";
+    for (var i = 0; i < value.length; i++) {
+      if (i > 0 && i % 4 === 0) {
+        formattedValue += " ";
+      }
+      formattedValue += value[i];
+    }
+    input.value = formattedValue.trim(); // Elimina espacios al principio y al final
+  });
+</script>
 {% endblock %}
+
 
