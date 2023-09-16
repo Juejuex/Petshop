@@ -1,0 +1,13 @@
+/* WebKit (Safari y Chrome) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    border-radius: 4px; /* Redondea la barra de desplazamiento */
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f3f3f3;
+}

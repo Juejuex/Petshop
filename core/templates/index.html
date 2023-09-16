@@ -2,12 +2,15 @@
 {% load static %}
 {% block content %}
 <div class=" text-black p-4 flex items-center justify-center">
-    <img src="{% static 'img/oferta.png' %}" alt="Oferta Especial" class="mr-4">
-    <div>
-      <h1 class="text-2xl font-bold">¡Oferta Especial!</h1>
-      <p class="text-lg">25% de descuento en todos los alimentos!</p>
-      <a href="{% url 'productos_por_categoria' categoria='Alimento' %}" class="mt-2 inline-block px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-600">Ver detalles</a>
-    </div>
+    <a>
+      <img src="{% static 'img/oferta.png' %}" alt="Oferta Especial" class="mr-4">
+    </a>
+    <div class="hidden md:block">
+  <h1 class="text-2xl font-bold">¡Oferta Especial!</h1>
+  <p class="text-lg">25% de descuento en todos los alimentos!</p>
+  <a href="{% url 'productos_por_categoria' categoria='Alimento' %}" class="mt-2 inline-block px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-600">Ver detalles</a>
+</div>
+
 </div>
 
 <div class="max-w-screen-xl mx-auto p-4">
@@ -37,39 +40,64 @@
 </div>
 
 
-
-<div class="flex justify-center p-4">
-  <div>
+<div class="flex flex-wrap max-w-screen-xl mx-auto p-4">
+  <div class="w-1/4 p-2">
     <a href="{% url 'productos_por_animal' animal_nombre='Perros' %}">
-      <img src="/static/img/perro.png" alt="Perro" class="mx-auto" />
+      <img src="/static/img/perro.png" alt="Perro" class="w-2/3 h-2/3" />
     </a>
   </div>
-  <div>
+  <div class="w-1/4 p-2">
     <a href="{% url 'productos_por_animal' animal_nombre='Gatos' %}">
-      <img src="/static/img/gato.png" alt="Gato" class="mx-auto" />
+      <img src="/static/img/gato.png" alt="Gato" class="w-2/3 h-2/3" />
     </a>
   </div>
-  <div>
+  <div class="w-1/4 p-2">
     <a href="{% url 'productos_por_animal' animal_nombre='Roedores' %}">
-      <img src="/static/img/hamster.png" alt="Hamster" class="mx-auto" />
+      <img src="/static/img/hamster.png" alt="Hamster" class="w-2/3 h-2/3" />
     </a>
   </div>
-  <div>
+  <div class="w-1/4 p-2">
     <a href="{% url 'productos_por_animal' animal_nombre='Aves' %}">
-      <img src="/static/img/pajaro.png" alt="Pájaro" class="mx-auto" />
+      <img src="/static/img/pajaro.png" alt="Pájaro" class="w-2/3 h-2/3" />
     </a>
   </div>
-  <div>
+  <div class="w-1/4 p-2 mx-auto">
     <a href="{% url 'productos_por_animal' animal_nombre='Reptiles' %}">
-      <img src="/static/img/tortuga.png" alt="Tortuga" class="mx-auto" />
+      <img src="/static/img/tortuga.png" alt="Tortuga" class="w-2/3 h-2/3" />
     </a>
   </div>
-  <div>
+  <div class="w-1/4 p-2 mx-auto">
     <a href="{% url 'productos_por_animal' animal_nombre='Peces' %}">
-      <img src="/static/img/nemo.png" alt="Nemo" class="mx-auto" />
+      <img src="/static/img/nemo.png" alt="Nemo" class="w-2/3 h-2/3" />
     </a>
   </div>
 </div>
+
+<div class="flex flex-wrap max-w-screen-xl mx-auto p-4">
+  <div class="w-1/2">
+    <a href="{% url 'productos_por_categoria' categoria='Farmacia' %}">
+      <img src="{% static 'img/farmacia.jpg' %}" alt="Farmacia" class="w-full h-auto rounded-lg shadow-md hover:opacity-80 transition-opacity duration-300" />
+    </a>
+    <p class="text-center mt-2 text-gray-800">Farmacia</p>
+  </div>
+  <div class="w-1/2">
+    <a href="{% url 'productos_por_categoria' categoria='Accesorios' %}">
+      <img src="{% static 'img/Accesorios.png' %}" alt="Accesorios" class="w-full h-auto rounded-lg shadow-md hover:opacity-80 transition-opacity duration-300" />
+    </a>
+    <p class="text-center mt-2 text-gray-800">Accesorios</p>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -7,112 +7,98 @@
     <title>Petshop</title>
     {% tailwind_css %}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/barra.css' %}">
 </head>
 <body class='bg-white h-full'>
-
-    <header class="flex justify-between bg-white text-black w-screen">
-        <div class="px-5 xl:px-12 py-6 flex w-full items-center">
-          <a class="text-3xl font-bold font-heading flex items-center mb-4 sm:mb-0" href="/">
-            <img src="{% static 'img/logo.png' %}" class="h-8 mr-3" alt="Flowbite Logo" />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap">Petshop</span>
-          </a>
-      <!--search           -->
-            <div class="flex justify-center items-center mx-4 w-full">
-              <div class="flex-grow flex items-center pl-60">
-                <div class="flex items-center">
-            
-                
+  <header class="flex justify-between bg-white text-black max-w-screen-xl mx-auto">
+    <div class="px-5 xl:px-12 py-6 flex w-full items-center">
+      <a class="text-3xl font-bold font-heading flex items-center mb-4 sm:mb-0" href="/">
+        <img src="{% static 'img/logo.png' %}" class="h-8 mr-3" alt="Flowbite Logo" />
+        <span class="self-center text-2xl font-semibold whitespace-nowrap">Petshop</span>
+      </a>
+      <!-- Search -->
+      <div class="flex-grow flex items-center">
+        <!-- Contenido de búsqueda -->
+      </div>
+      <div class="hidden xl:flex items-center space-x-5 ">
+        {% if user.is_authenticated %}
+            <div class="relative dropdown">
+                <a class="flex items-center hover:text-gray-200" href="#">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                </a>
+                <div class="absolute left-1/2 transform -translate-x-1/2 mt-2 w-40 bg-white border rounded-lg shadow-lg hidden">
+                    <ul class="py-2">
+                        <li><p class="block px-4 py-2 ">{{ user.username }}</p></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="/profile">Perfil</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="/logout">Salir</a></li>
+                    </ul>
                 </div>
-              </div>
             </div>
-
-            
-            <div id="search-results" class="mt-4"></div>
-
+        {% else %}
+            <div class="relative dropdown">
+                <a class="flex items-center hover:text-gray-200" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </a>
+                <div class="absolute left-1/2 transform -translate-x-1/2 mt-2 w-40 bg-white border rounded-lg shadow-lg hidden">
+                    <ul class="py-2">
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="/login">Iniciar sesión</a></li>
+                        <li><a class="block px-4 py-2 hover:bg-gray-100" href="/register">Registrarse</a></li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
       
-            <!-- Header Icons -->
-            <div class="hidden xl:flex items-center space-x-5 ">
-              {% if user.is_authenticated %}
-                  <div class="relative dropdown">
-                      <a class="flex items-center hover:text-gray-200" href="#">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      </a>
-                      <div class="absolute left-1/2 transform -translate-x-1/2 mt-2 w-40 bg-white border rounded-lg shadow-lg hidden">
-                          <ul class="py-2">
-                              <li><p class="block px-4 py-2 ">{{ user.username }}</p></li>
-                              <li><a class="block px-4 py-2 hover:bg-gray-100" href="/profile">Perfil</a></li>
-                              <li><a class="block px-4 py-2 hover:bg-gray-100" href="/logout">Salir</a></li>
-                          </ul>
-                      </div>
-                  </div>
-              {% else %}
-                  <div class="relative dropdown">
-                      <a class="flex items-center hover:text-gray-200" href="#">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                      </a>
-                      <div class="absolute left-1/2 transform -translate-x-1/2 mt-2 w-40 bg-white border rounded-lg shadow-lg hidden">
-                          <ul class="py-2">
-                              <li><a class="block px-4 py-2 hover:bg-gray-100" href="/login">Iniciar sesión</a></li>
-                              <li><a class="block px-4 py-2 hover:bg-gray-100" href="/register">Registrarse</a></li>
-                          </ul>
-                      </div>
-                  </div>
-              {% endif %}
-            
-        
-              {% if user.is_authenticated %}
-                <a class="flex items-center hover:text-gray-200" href="/ver_carrito" id="cartIcon">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                  <span class="flex absolute -mt-5 ml-4">
-                    <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500">
-                    </span>
-                  </span>
-                </a>
-              {% else %}
-                <a class="flex items-center hover:text-gray-200" href="/register" id="cartIcon">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                  <span class="flex absolute -mt-5 ml-4">
-                    <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500">
-                    </span>
-                  </span>
-                </a>
-              {% endif %}
-            
-            </div>
-
-                     
-            
-          </div>
-        </div>
-        <!-- Responsive navbar -->
-        <a class="xl:hidden flex mr-6 items-center" href="#">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-          <span class="flex absolute -mt-5 ml-4">
-            <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500">
+  
+        {% if user.is_authenticated %}
+          <a class="flex items-center hover:text-gray-200" href="/ver_carrito" id="cartIcon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span class="flex absolute -mt-5 ml-4">
+              <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500">
+              </span>
             </span>
-          </span>
-        </a>
-        <a class="navbar-burger self-center mr-12 xl:hidden" href="#">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </a>
-      </header>
+          </a>
+        {% else %}
+          <a class="flex items-center hover:text-gray-200" href="/register" id="cartIcon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span class="flex absolute -mt-5 ml-4">
+              <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500">
+              </span>
+            </span>
+          </a>
+        {% endif %}
       
-      <nav class="bg-white text-gray-400">
+      </div>
+      
+      <a class="xl:hidden flex mr-6 items-center" href="#">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        <span class="flex absolute -mt-5 ml-4">
+          <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500">
+          </span>
+        </span>
+      </a>
+      <a class="navbar-burger self-center mr-12 xl:hidden" href="#">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </a>
+  </header>
+  
+      
+      <nav class="bg-white text-gray-400 hidden md:block">
         <div class="flex justify-center py-2 space-x-6">
           <div class="relative inline-block dropdown">
             <a class="flex items-center hover:text-gray-600">
@@ -247,5 +233,7 @@
     <script src="{% static 'scripts/navbar.js' %}"></script>
     <script src="{% static 'scripts/buscador.js' %}"></script>
     
+
+  </div>
 </body>
 </html>

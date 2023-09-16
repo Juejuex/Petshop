@@ -2,14 +2,13 @@
 {% load static %}
 {% block content %}
 
-<h2>Lista de Productos</h2>
 <div class="flex flex-wrap -mx-4">
     {% for producto in productos %}
-        <div class="w-1/3 h-1/5 px-4 mb-4">
+        <div class="w-1/3 sm:w-1/4 md:w-1/6 px-4 mb-4">
             <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow">
                 <a href="{% url 'producto_individual' producto.slug %}">
                     {% if producto.imagen %}
-                        <img class="p-8 rounded-t-lg w-full h-48 object-cover" src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" />
+                        <img class="p-8 rounded-t-lg w-full h-auto object-contain" src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" />
                     {% else %}
                         <div class="p-8 rounded-t-lg w-full h-48 bg-gray-200 flex items-center justify-center">
                             <span class="text-gray-500">Imagen no disponible</span>
@@ -18,35 +17,35 @@
                 </a>
                 <div class="px-5 pb-5">
                     <a href="{% url 'producto_individual' producto.slug %}">
-                        <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ producto.nombre }}</h5>
+                        <h5 class="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">{{ producto.nombre }}</h5>
                     </a>
                     <div class="flex items-center justify-between">
-                                                        <h1>
-                            {{ producto.categorias.all|join:", " }}
+                        <h1>
                             {% for categoria in producto.categorias.all %}
                                 {% if categoria.nombre == 'Alimento' %}
-                                    <br>
                                     <span class="text-sm text-red-500">Descuento 25%</span><br>
-                                    <span class="3xl font-bold text-gray-900">${{ producto.precio}}</span>
-
+                                    <span class="text-3xl font-bold text-gray-900">${{ producto.precio}}</span>
                                 {% else %}
                                     <span class="text-3xl font-bold text-gray-900">${{ producto.precio }}</span>
-                                    {% endif %}
-                                    {% if not forloop.last %}, {% endif %}
-                                {% endfor %}
+                                {% endif %}
+                                {% if not forloop.last %}, {% endif %}
+                            {% endfor %}
                             {% if user.is_authenticated %}
                             <a href="{% url 'agregar_al_carrito' producto.id %}" class="text-white bg-gray-400 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Agregar al carrito</a>
-                              {% else %}
+                            {% else %}
                             <button
                                 class="text-white bg-gray-400 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                                 onclick="mostrarMensaje()">Agregar al carrito</button>
-                              {% endif %}
+                            {% endif %}
+                        </h1>
                     </div>
                 </div>
             </div>
         </div>
     {% endfor %}
 </div>
+
+
 
 <script>
     function mostrarMensaje() {
